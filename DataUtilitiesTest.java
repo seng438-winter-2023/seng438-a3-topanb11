@@ -10,6 +10,7 @@ import java.util.*;
 public class DataUtilitiesTest {
 	DefaultKeyedValues2D nullValues2D = new DefaultKeyedValues2D();
 	DefaultKeyedValues2D emptyValues2D = new DefaultKeyedValues2D();
+	DefaultKeyedValues2D fullValues2D = new DefaultKeyedValues2D();
 	DefaultKeyedValues nullValues = new DefaultKeyedValues();
 	DefaultKeyedValues nominalValues = new DefaultKeyedValues();
 	DefaultKeyedValues expectedValues = new DefaultKeyedValues();
