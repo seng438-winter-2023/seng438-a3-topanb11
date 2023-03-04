@@ -22,6 +22,7 @@ public class RangeTest {
 	Range testRangeNegativeShift;
 	Range doubledNormalRange;
 	Range expandLowerGreaterThanHigher;
+	Double constraintValue;
 
 	@BeforeClass public static void setUpBeforeClass() throws Exception {
 	}
@@ -42,6 +43,7 @@ public class RangeTest {
 		testRangeNegativeShift = new Range(-5, 0);
 		doubledNormalRange = new Range(-5, 20);
 		expandLowerGreaterThanHigher = new Range(17.5, 17.5);
+		constraintValue = 1.00;
 	}
 
 	@Test (expected = IllegalArgumentException.class)
@@ -355,6 +357,82 @@ public class RangeTest {
 	 */
 	public void expandLowerGreaterThanHigherTest() {
 		assertEquals("Expected to be [17.5, 17.5]", expandLowerGreaterThanHigher, Range.expand(normalRangeOne, -3, 1));
+	}
+	@Test
+	/**
+	 * intersectionTestOutofUpperBound tests the intersection value when the intersection range you are testing
+	 * is completely outside of the upper bound of the range you are testing.
+	 * Expected Value: False
+	 */
+	public void intersectionRangeTestAUB() {
+		Range testAUB = new Range(10,20);
+		assertEquals("Expected intersection result is false", false, testRangeDifferent.intersects(testAUB));
+	}
+
+	@Test
+	/**
+	 * combineTestRangeNull
+	 * This test will attempt to combine two ranges however, Range2 will equal Null, the test should return
+	 * the other range (range1) as the range.
+	 */
+	public void combineRangeOneNullTest()
+	{
+		assertEquals("Expected to be [5,10]",normalRangeOne,Range.combine(normalRangeOne, null));
+	}
+
+	@Test
+	/**
+	 * combineTestRangeNull
+	 * This test will attempt to combine two ranges however, Range1 will equal Null, the test should return
+	 * the other range (range2) as the range.
+	 */
+	public void combineRangeTwoNullTest()
+	{
+		assertEquals("Expected to be [-10,5]",normalRangeTwo,Range.combine(normalRangeOne,normalRangeTwo));
+	}
+
+	@Test
+	/**
+	 * combineTestRangeNull
+	 * This test will attempt to combine two ranges however, Range1 will equal Null, the test should return
+	 * the other range (range2) as the range.
+	 */
+	public void combineRangesBothNotNullTest()
+	{
+		assertEquals("Expected to be [-10,10]",combinedRange,Range.combine(null,normalRangeTwo));
+	}
+
+	@Test
+	/**
+	 * constrainValueWithin
+	 * Value passed through to constraint is within the range that is set, constraint will return the value that we are
+	 * sending in.
+	 */
+	public void constraintValueWithin()
+	{
+		assertEquals("Expected to be 1",constraintValue,testRangeDifferent.constrain(constraintValue),0.00000000d);
+	}
+
+	@Test
+	/**
+	 * constrainValueWithin
+	 * Value passed through to constraint is above the upper-bound range that is set, constraint will return the upper-bound that we are
+	 * sending in.
+	 */
+	public void constraintValueAUB()
+	{
+		assertEquals("Expected to be 5",testRangeDifferent.getUpperBound(),testRangeDifferent.constrain(10),0.00000000d);
+	}
+
+	@Test
+	/**
+	 * constrainValueWithin
+	 * Value passed through to constraint is below the lower-bound range that is set, constraint will return the lower-bound that we are
+	 * sending in.
+	 */
+	public void constraintValueBLB()
+	{
+		assertEquals("Expected to be -5",testRangeDifferent.getUpperBound(),testRangeDifferent.constrain(-10),0.00000000d);
 	}
 	@After
 	public void tearDown() throws Exception {}
